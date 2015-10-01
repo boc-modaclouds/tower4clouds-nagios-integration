@@ -9,19 +9,19 @@
  * @author Core Development, 2013
  */
 
-
 package com.boc_eu.modaclouds.monitoring.nagios.bridge;
 
 import it.polimi.modaclouds.monitoring.metrics_observer.MetricsObServer;
 
 /**
- *
  * @author stepan
  */
-public class BocMetricsObserver extends MetricsObServer {
-
-    public BocMetricsObserver(final int nPort) {
-        super(nPort, BocMetricsResultHandler.class);
-    }
-    
+public class BocMetricsObserver extends MetricsObServer
+{
+  
+  public BocMetricsObserver (final int nPort)
+  {
+    super (nPort, BocMetricsResultHandler.class);
+  }
+  
 }

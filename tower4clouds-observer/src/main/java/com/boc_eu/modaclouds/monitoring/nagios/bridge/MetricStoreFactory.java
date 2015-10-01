@@ -7,14 +7,15 @@
 package com.boc_eu.modaclouds.monitoring.nagios.bridge;
 
 /**
- *
  * @author sseycek
  */
-public class MetricStoreFactory {
-    
-    private static final MetricStore aInstance = new InMemoryMetricStore();
-    
-    public MetricStore getMetricStore() {
-        return aInstance;
-    }
+public class MetricStoreFactory
+{
+  
+  private static final MetricStore aInstance = new InMemoryMetricStore ();
+  
+  public MetricStore getMetricStore ()
+  {
+    return aInstance;
+  }
 }

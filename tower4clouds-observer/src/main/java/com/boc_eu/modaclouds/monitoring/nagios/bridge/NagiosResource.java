@@ -17,10 +17,11 @@ import org.restlet.resource.ServerResource;
  */
 public class NagiosResource extends ServerResource {
 
-    private final MetricStoreFactory aMetricStoreFactory = new MetricStoreFactory();
+    //private final MetricStoreFactory aMetricStoreFactory = new MetricStoreFactory();
     
     @Get("json")
     public String getMetricValue(){
+        final MetricStoreFactory aMetricStoreFactory = new MetricStoreFactory();
         final String sHost = getQueryValue(Constants.NAGIOS_API_QUERY_PARAM_HOST);
         final String sMetric = getQueryValue(Constants.NAGIOS_API_QUERY_PARAM_METRIC);
         if (null != sHost && null != sMetric) {
@@ -51,5 +52,4 @@ public class NagiosResource extends ServerResource {
             return aRet.toString();
         }
     }
-     
 }

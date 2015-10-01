@@ -27,6 +27,7 @@ public class NagiosApi extends Thread {
     @Override
     public void run() {
         try {
+            NagiosResource aNew = new NagiosResource();
             Server aServer = new Server(Protocol.HTTP, nPort, NagiosResource.class);
             aServer.start();
             try {

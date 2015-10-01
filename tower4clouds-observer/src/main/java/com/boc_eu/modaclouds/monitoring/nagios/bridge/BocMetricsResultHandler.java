@@ -9,43 +9,43 @@
  * @author Core Development, 2013
  */
 
-
 package com.boc_eu.modaclouds.monitoring.nagios.bridge;
 
-import it.polimi.modaclouds.monitoring.metrics_observer.ResultsHandler;
-import it.polimi.modaclouds.monitoring.metrics_observer.model.Variable;
+import it.polimi.modaclouds.monitoring.metrics_observer.MonitoringDatum;
+import it.polimi.modaclouds.monitoring.metrics_observer.MonitoringDatumHandler;
+
+import java.util.Date;
 import java.util.List;
-import java.util.Map;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
- *
  * @author stepan
  */
-public class BocMetricsResultHandler extends ResultsHandler {
-    
-    private static final Logger aLog = LoggerFactory.getLogger(BocMetricsResultHandler.class);
-
-    @Override
-    public void getData(List<String> varNames, List<Map<String, Variable>> bindings) {
-    
-        // let's see what we get in here
-        final boolean bDebug = true;
-        if (bDebug) {
-            aLog.debug("VAR NAMES:");
-            for (final String sVarName : varNames) {
-                aLog.debug(" -> {}", sVarName);
-            }
-            aLog.debug("BINDINGS:");
-            for (final Map<String, Variable> aBinding : bindings) {
-                for (final String sKey : aBinding.keySet()) {
-                    aLog.debug(" -> {}: {}", sKey, aBinding.get(sKey).getValue());
-                }
-            }
-        }
-        
-        aLog.warn("implementation for the addition of observed metric values to the store is missing ...");
+public class BocMetricsResultHandler extends MonitoringDatumHandler
+{
+  private final MetricStoreFactory aMetricStoreFactory = new MetricStoreFactory ();
+  
+  @Override
+  public void getData (final List <MonitoringDatum> monitoringData)
+  {
+    final String observerTimestamp = Long.toString (new Date ().getTime ());
+    for (final MonitoringDatum monitoringDatum : monitoringData)
+    {
+      System.out.println (observerTimestamp +
+                          "," +
+                          monitoringDatum.getResourceId () +
+                          "," +
+                          monitoringDatum.getMetric () +
+                          "," +
+                          monitoringDatum.getValue () +
+                          "," +
+                          monitoringDatum.getTimestamp ());
+      final ObservedMetricValue obsVal = new ObservedMetricValue (monitoringDatum.getResourceId (),
+                                                                  monitoringDatum.getMetric (),
+                                                                  monitoringDatum);
+      final MetricStore aStore = this.aMetricStoreFactory.getMetricStore ();
+      aStore.put (obsVal);
     }
     
+  }
+  
 }
