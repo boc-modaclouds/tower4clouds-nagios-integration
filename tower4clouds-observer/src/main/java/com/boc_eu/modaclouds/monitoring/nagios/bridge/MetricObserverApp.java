@@ -1,6 +1,5 @@
 package com.boc_eu.modaclouds.monitoring.nagios.bridge;
 
-import it.polimi.modaclouds.monitoring.metrics_observer.MetricsObServer;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,13 +12,13 @@ public class MetricObserverApp
   {
     aLog.info ("starting MetricObserverApp ...");
     final int nObserverPort = Config.getInstance ().getObserverPort ();
-    final MetricsObServer aObserver = new BocMetricsObserver (nObserverPort);
+    final ObserverApi aObserverApi = new ObserverApi (nObserverPort);
     final int nNagiosPort = Config.getInstance ().getNagiosPort ();
     final NagiosApi aNatiosApi = new NagiosApi (nNagiosPort);
     try
     {
       aNatiosApi.start ();
-      aObserver.start ();
+      aObserverApi.start ();
       // now wait for the command to stop
       
       try
@@ -33,8 +32,9 @@ public class MetricObserverApp
       {
         aLog.info ("caught interrupt request, shutting down ...");
         aNatiosApi.interrupt ();
-        aObserver.stop ();
+        aObserverApi.interrupt();
         aNatiosApi.join ();
+        aObserverApi.join ();
       }
       
     }
